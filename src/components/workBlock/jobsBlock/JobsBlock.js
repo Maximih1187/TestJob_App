@@ -18,9 +18,6 @@ const JobsBlock = () => {
    const [addId, setAddId] = useState([]);
    console.log(rows);
 
-
-
-
    const delRow = (id) => {
       setRows(rows.filter(item => item.id !== id))
    }
@@ -29,7 +26,7 @@ const JobsBlock = () => {
       setAddId([...addId, id])
    }
 
-   const addData = async (url) => {
+   const addDataFromServer = async (url) => {
       try {
          const response = await fetch(url,
             {
@@ -48,7 +45,7 @@ const JobsBlock = () => {
 	}
 
 	useEffect(() => {
-      addData(getList)
+      addDataFromServer(getList)
 
    }, [addId]);
 
