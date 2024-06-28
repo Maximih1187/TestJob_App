@@ -9,10 +9,10 @@ import { useEffect } from 'react';
 
 const JobsBlock = () => {
 	const myId = 130018;
-	const qweryGetList = 'http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/list'
-	const qweryDelet = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${130018}/delete`
-
-	const qweryUpdate = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/123/update`
+	const getList = 'http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/list';
+	const deleteRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${130018}/delete`;
+	const updateRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${112}/update`;
+	const creatRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`
 
 
 	const body = {
@@ -23,7 +23,7 @@ const JobsBlock = () => {
 		"materials": 0,
 		"mimExploitation": 0,
 		"overheads": 0,
-		"rowName": "string",
+		"rowName": "Привет Максим",
 		"salary": 0,
 		"supportCosts": 0
 	}
@@ -33,12 +33,12 @@ const JobsBlock = () => {
 
 
 	const addData = async () => {
-		const data = await fetch(qweryUpdate
+		const data = await fetch(creatRow
 			,
 			{
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: body
+				body: JSON.stringify(body)
 
 			}
 		)
