@@ -1,0 +1,85 @@
+.general{
+      display: grid;
+      grid-template-columns: 234px auto ;
+}
+.table__job{
+      background: rgba(39, 39, 42, 1);
+
+}
+.table__job-header{
+      height: 40px;
+      display: grid;
+grid-template-columns: 110px 757px 1fr 1fr 1fr 1fr;
+}
+.table__item{
+
+      height: 30px;
+      border-top:1px solid rgba(65, 65, 68, 1);
+
+}
+.table__job-heading{
+      display: grid;
+      grid-template-columns: 300px auto ;
+      border-bottom:1px solid rgba(65, 65, 68, 1);
+}
+.heading__namejob-left{
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      color: rgba(255, 255, 255, 1);
+      border-right:1px solid rgba(65, 65, 68, 1);
+}
+.table__item-header{
+display: flex;
+/* justify-content: center; */
+align-items: center;
+color: rgba(161, 161, 170, 1);
+font-size: 14px;
+font-weight: 400;
+/* line-height: 18.2px; */
+letter-spacing: 0.10000000149011612px;
+text-align: left;
+padding-left: 20px;
+
+}
+.spase{
+      width: 1660px;
+      border: 1px solid rgba(65, 65, 68, 0.569);
+}
+/* Строки таблицы */
+.table__job-rows{
+      height: 60px;
+      display: grid;
+grid-template-columns: 110px 757px 1fr 1fr 1fr 1fr;
+}
+
+.table__item-rows{
+display: flex;
+align-items: center;
+color: rgba(161, 161, 170, 1);
+font-size: 14px;
+font-weight: 400;
+letter-spacing: 0.10000000149011612px;
+padding-left: 20px;
+color: rgba(255, 255, 255, 1);
+}
+
+
+/* иконки кнопки */
+.table__item-icons{
+      overflow: hidden;
+width: 22px;
+height: 28px;
+padding: 3px 7px 3px 7px;
+gap: 7px;
+border-radius: 6px;
+
+display: flex;
+align-items:center;
+justify-content: space-evenly;
+transition: all .3s;
+}
+.table__item-icons:hover{
+      width: 55px;
+      background: rgba(65, 65, 68, 1);
+}

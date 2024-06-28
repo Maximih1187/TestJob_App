@@ -1,0 +1,42 @@
+.navbar{
+height: 100vh;
+/* width: 233px; */
+border: 1px solid rgba(65, 65, 68, 1);
+background: rgba(39, 39, 42, 1);
+border-top: none;
+
+}
+.navbar__project{
+position: relative;
+/* width: 233px; */
+height:44px ;
+background:rgba(39, 39, 42, 1);
+border-bottom: 1px solid rgba(65, 65, 68, 1);
+
+
+
+}
+.navbar__project-nameproject {
+color:rgba(161, 161, 170, 1);
+font-size: 14px;
+font-weight: 400;
+line-height: 1px;
+text-align: left;
+padding-left: 20px;
+padding-top:8px ;
+
+}
+.navbar__project-abbreviation{
+color:rgba(161, 161, 170, 1);
+font-size: 10px;
+font-weight: 400;
+line-height: 1px;
+text-align: left;
+padding-left: 20px;
+}
+.navbar__project-icon{
+      position: absolute;
+      right: 5px;
+      /* top: 10px; */
+      padding: 10px;
+}

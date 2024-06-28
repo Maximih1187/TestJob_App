@@ -1,0 +1,42 @@
+
+/* Строки таблицы */
+.table__list{
+      height: 60px;
+      display: grid;
+grid-template-columns: 110px 757px 1fr 1fr 1fr 1fr;
+}
+
+.table__list-rows{
+display: flex;
+align-items: center;
+color: rgba(161, 161, 170, 1);
+font-size: 14px;
+font-weight: 400;
+letter-spacing: 0.10000000149011612px;
+padding-left: 20px;
+color: rgba(255, 255, 255, 1);
+}
+
+
+/* иконки кнопки */
+.table__list-icons{
+      overflow: hidden;
+width: 22px;
+height: 28px;
+padding: 3px 7px 3px 7px;
+gap: 7px;
+border-radius: 6px;
+display: flex;
+align-items:center;
+justify-content: space-evenly;
+transition: all .3s;
+}
+.table__list-icons:hover{
+      width: 55px;
+      background: rgba(65, 65, 68, 1);
+}
+.spase{
+      width: 1660px;
+      border: 1px solid rgba(65, 65, 68, 0.569);
+
+}
