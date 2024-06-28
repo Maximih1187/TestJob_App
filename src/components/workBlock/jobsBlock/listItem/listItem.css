@@ -1,12 +1,14 @@
 
 /* Строки таблицы */
 .table__list{
+      cursor: pointer;
       height: 60px;
       display: grid;
 grid-template-columns: 110px 757px 1fr 1fr 1fr 1fr;
 }
 
 .table__list-rows{
+cursor: pointer;
 display: flex;
 align-items: center;
 color: rgba(161, 161, 170, 1);
@@ -39,4 +41,13 @@ transition: all .3s;
       width: 1660px;
       border: 1px solid rgba(65, 65, 68, 0.569);
 
+}
+.row__input{
+      width: 80%;
+     height: 50px;
+     border:1px solid rgba(65, 65, 68, 0.569);
+     border-radius:15px;
+     background: none;
+     color:rgb(255, 255, 255);
+     font-size: 20px;
 }

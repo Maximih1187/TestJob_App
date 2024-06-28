@@ -1,6 +1,5 @@
 .navbar{
 height: 100vh;
-/* width: 233px; */
 border: 1px solid rgba(65, 65, 68, 1);
 background: rgba(39, 39, 42, 1);
 border-top: none;
@@ -8,7 +7,6 @@ border-top: none;
 }
 .navbar__project{
 position: relative;
-/* width: 233px; */
 height:44px ;
 background:rgba(39, 39, 42, 1);
 border-bottom: 1px solid rgba(65, 65, 68, 1);

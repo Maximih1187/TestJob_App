@@ -3,55 +3,54 @@ import Navbar from '../navbar/Navbar';
 // import iconAdd from './icons/IconAdd.png'
 // import iconDelet from './icons/iconDelet.png'
 import ListItem from './listItem/ListItem';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
 const JobsBlock = () => {
 	const myId = 130018;
-	const getList = 'http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/list';
+   const getList = 'http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/list';
 	const deleteRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${130018}/delete`;
 	const updateRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${112}/update`;
 	const creatRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`
 
-
-	const body = {
-		"equipmentCosts": 0,
-		"estimatedProfit": 0,
-		"machineOperatorSalary": 0,
-		"mainCosts": 0,
-		"materials": 0,
-		"mimExploitation": 0,
-		"overheads": 0,
-		"rowName": "Привет Максим",
-		"salary": 0,
-		"supportCosts": 0
-	}
-	// const body1 = JSON.parse(body)
-	//console.log(body1);
+   const [rows, setRows] = useState([]);
+   const [addId, setAddId] = useState([]);
+   console.log(rows);
 
 
 
-	const addData = async () => {
-		const data = await fetch(creatRow
-			,
-			{
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(body)
 
-			}
-		)
-		const response = await data.json()
-		console.log(response);
+   const delRow = (id) => {
+      setRows(rows.filter(item => item.id !== id))
+   }
 
+   const addRow = (id) => {
+      setAddId([...addId, id])
+   }
+
+   const addData = async (url) => {
+      try {
+         const response = await fetch(url,
+            {
+               method: 'GET',
+               // headers: { 'Content-Type': 'application/json' },
+               // body: JSON.stringify(body)
+            }
+         )
+         if (!response.ok) {
+            throw new Error('ошибка запроса')
+         }
+         const data = await response.json().then(data => setRows(data))
+      } catch (error) {
+         console.log(error);
+      }
 	}
 
 	useEffect(() => {
-		addData()
+      addData(getList)
 
-	}, []);
-
+   }, [addId]);
 
 	return (
 		<div className="general">
@@ -68,25 +67,11 @@ const JobsBlock = () => {
 					<div className="table__item-header">Оборудование</div>
 					<div className="table__item-header">Накладные расходы</div>
 					<div className="table__item-header">Сметная прибыль</div>
-				</div>
-				{/* <hr className='spase' /> */}
-				{/* <div className="table__job-rows">
-                              <div className="table__item-rows">
-                                    <div className="table__item-icons">
-                                          <img src={iconAdd} alt="" />
-                                          <img src={iconDelet} alt="" />
+            </div>
+            {rows.map(({ id, ...props }) => {
+               return <ListItem id={id} key={id} {...props} delRow={delRow} addRow={addRow} />
+            })}
 
-                                    </div>
-                              </div>
-                              <div className="table__item-rows">Наименование работ</div>
-                              <div className="table__item-rows">Основная з/п</div>
-                              <div className="table__item-rows">Оборудование</div>
-                              <div className="table__item-rows">Накладные расходы</div>
-                              <div className="table__item-rows">Сметная прибыль</div>
-                        </div> */}
-				<ListItem />
-				<ListItem />
-				<ListItem />
 
 			</div>
 
