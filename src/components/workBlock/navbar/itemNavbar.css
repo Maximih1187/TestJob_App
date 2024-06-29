@@ -1,0 +1,22 @@
+.navbar__item{
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      width: 240px;
+      height: 40px;
+      cursor: pointer;
+      &:hover{
+             background-color: #b7b5b523;
+      }
+}
+.navbar__item-icon{
+      width: 22px;
+      height: 22px;
+      margin: 8px 7px 8px 22px;
+}
+.navbar__item-text{
+
+margin: 10px 7px;
+color: rgb(255, 255, 255);
+;
+}

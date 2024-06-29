@@ -1,9 +1,10 @@
 import './jobsBlock.css'
 import Navbar from '../navbar/Navbar';
-// import iconAdd from './icons/IconAdd.png'
-// import iconDelet from './icons/iconDelet.png'
+import iconAdd from './icons/IconAdd.png'
+import iconDelet from './icons/iconDelet.png'
 import ListItem from './listItem/ListItem';
 import { useEffect, useState } from 'react';
+
 
 
 
@@ -22,9 +23,9 @@ const JobsBlock = () => {
       setRows(rows.filter(item => item.id !== id))
    }
 
-   const addRow = (id) => {
-      setAddId([...addId, id])
-   }
+   // const addRow = (id) => {
+   //    setAddId([...addId, id])
+   // }
 
    const addDataFromServer = async (url) => {
       try {
@@ -44,6 +45,35 @@ const JobsBlock = () => {
       }
 	}
 
+   const addItemRow = async (id) => {
+      let obj = {
+         equipmentCosts: 0,
+         estimatedProfit: 0,
+         machineOperatorSalary: 0,
+         mainCosts: 0,
+         materials: 0,
+         mimExploitation: 0,
+         overheads: 0,
+         rowName: 'Заполните поле',
+         salary: 0,
+         supportCosts: 0,
+      }
+      try {
+         const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`,
+            {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(obj)
+            }
+         )
+
+         if (!response.ok) {
+            throw new Error('ошибка запроса')
+         }
+         setAddId([...addId, id])
+      } catch (error) {
+      }
+   }
 	useEffect(() => {
       addDataFromServer(getList)
 
@@ -65,13 +95,30 @@ const JobsBlock = () => {
 					<div className="table__item-header">Накладные расходы</div>
 					<div className="table__item-header">Сметная прибыль</div>
             </div>
+            <hr className='spase' />
+            <div className="table__list" >
+               <div className="table__list-rows" >
+                  <div className="table__list-icons">
+                     <img onClick={() => addItemRow()} src={iconAdd} alt="кнопка добавления строки" />
+                     {/* <img  src={iconDelet} alt="кнопка удаления строки" /> */}
+
+                  </div>
+               </div>
+               <div className="table__item-rows">Нажмите кнопку добавить</div>
+               <div className="table__item-rows"></div>
+               <div className="table__item-rows"></div>
+               <div className="table__item-rows"></div>
+               <div className="table__item-rows"></div>
+            </div>
             {rows.map(({ id, ...props }) => {
-               return <ListItem id={id} key={id} {...props} delRow={delRow} addRow={addRow} />
+               return <ListItem
+                  id={id}
+                  key={id}
+                  {...props}
+                  delRow={delRow}
+                  addItemRow={addItemRow} />
             })}
-
-
-			</div>
-
+         </div>
 		</div>
 	);
 }

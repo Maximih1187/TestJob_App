@@ -3,11 +3,12 @@ height: 100vh;
 border: 1px solid rgba(65, 65, 68, 1);
 background: rgba(39, 39, 42, 1);
 border-top: none;
+cursor: pointer;
 
 }
 .navbar__project{
 position: relative;
-height:44px ;
+height:48px ;
 background:rgba(39, 39, 42, 1);
 border-bottom: 1px solid rgba(65, 65, 68, 1);
 

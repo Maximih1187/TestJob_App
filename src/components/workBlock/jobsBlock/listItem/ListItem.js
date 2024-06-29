@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 const ListItem = (props) => {
 
-   const { id, rowName, total, salary, mimExploitation, supportCosts, delRow, addRow } = props;
+   const { id, rowName, total, salary, mimExploitation, supportCosts, delRow, addRow, addItemRow } = props;
    const [stateInp, setStateInp] = useState(false)
 
    const [impId, setInpId] = useState(0)
@@ -22,7 +22,6 @@ const ListItem = (props) => {
       setInpSalory(salary)
       setInpMimExploitation(mimExploitation)
       setInpSupportCosts(supportCosts)
-
    }, []);
 
    const redactRow = (id) => {
@@ -37,21 +36,17 @@ const ListItem = (props) => {
       try {
          const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/delete`,
             {
-               method: 'DELETE',
-               // headers: { 'Content-Type': 'application/json' },
-               // body: JSON.stringify(body)
+               method: 'DELETE'
             }
          )
          if (!response.ok) {
             throw new Error('ошибка запроса')
          }
-         //const data = await response.json().then(data => setRows(data))
       } catch (error) {
       }
    }
 
    const changeItemRow = async (id) => {
-      console.log(id);
 
       let obj = {
          equipmentCosts: 0,
@@ -65,7 +60,7 @@ const ListItem = (props) => {
          salary: impSalary,
          supportCosts: impSupportCosts,
       }
-      console.log(obj);
+
       try {
          const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/update`,
             {
@@ -77,44 +72,10 @@ const ListItem = (props) => {
          if (!response.ok) {
             throw new Error('ошибка запроса')
          }
-         //const data = await response.json().then(data => setRows(data))
-      } catch (error) {
       }
-
-   }
-
-
-   const addItemRow = async (id) => {
-      console.log(id);
-      let obj = {
-         equipmentCosts: 0,
-         estimatedProfit: 0,
-         machineOperatorSalary: 0,
-         mainCosts: 0,
-         materials: 0,
-         mimExploitation: 0,
-         overheads: 0,
-         rowName: 'Заполните поле',
-         salary: 0,
-         supportCosts: 0,
-      }
-      try {
-         const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`,
-            {
-               method: 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(obj)
-            }
-         )
-
-         if (!response.ok) {
-            throw new Error('ошибка запроса')
-         }
-         addRow(id)
-      } catch (error) {
+      catch (error) {
       }
    }
-
 
    const inputsName = <input
       value={impName}
@@ -159,7 +120,7 @@ const ListItem = (props) => {
          <div className="table__list" onDoubleClick={() => redactRow(impId)} id={impId}>
             <div className="table__list-rows" >
 					<div className="table__list-icons">
-                  <img id={impId} onClick={() => addItemRow(impId)} src={iconAdd} alt="" />
+                  <img id={impId} onClick={() => !stateInp && addItemRow(impId)} src={iconAdd} alt="" />
                   <img id={impId} onClick={() => deletRow(impId)} src={iconDelet} alt="" />
 
 					</div>
@@ -170,9 +131,7 @@ const ListItem = (props) => {
             <div className="table__item-rows">{stateInp ? inputsЫupportCosts : impSupportCosts}</div>
             <div className="table__item-rows">{stateInp ? inputsTotal : impTotal}</div>
 			</div>
-		</>
-
-
+      </>
 	);
 }
 
