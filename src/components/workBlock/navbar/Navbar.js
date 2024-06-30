@@ -8,10 +8,6 @@ const Navbar = () => {
             "По проекту", "Объекты", "РД", "МТО", "График", "МиМ", "Рабочее", "Капвложения", "Бюджет", "Финансирование", "Панорама", "Камеры", "Поручения", "Контрагенты"
       ]
 
-
-
-
-
       return (
             <div className='navbar'>
                   <div className="navbar__project">
@@ -19,7 +15,7 @@ const Navbar = () => {
                         <p className='navbar__project-nameproject'>Название проекта</p>
                         <p className='navbar__project-abbreviation' >Аббревиатура</p>
                   </div>
-                  {text.map(item => <ItemNavbar text={item} />)}
+                  {text.map((item, i) => <ItemNavbar key={i} text={item} />)}
 
             </div>
       );

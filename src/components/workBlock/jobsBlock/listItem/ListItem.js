@@ -2,18 +2,30 @@ import './listItem.css'
 import iconAdd from './icons/IconAdd.png'
 import iconDelet from './icons/iconDelet.png'
 import { useState, useEffect } from 'react';
+import { useHttp } from '../../../../hooks/http.hooks';
+
 
 const ListItem = (props) => {
 
-   const { id, rowName, total, salary, mimExploitation, supportCosts, delRow, addRow, addItemRow } = props;
-   const [stateInp, setStateInp] = useState(false)
+   const { request } = useHttp()
+   const { id,
+      rowName,
+      total,
+      salary,
+      mimExploitation,
+      supportCosts,
+      deleteItem,
+      addItemRow
+   } = props;
 
+   const [stateInp, setStateInp] = useState(false)
    const [impId, setInpId] = useState(0)
    const [impName, setSInpName] = useState('')
    const [impTotal, setSInpTotal] = useState(0)
    const [impSalary, setInpSalory] = useState(0)
    const [inpMimExploitation, setInpMimExploitation] = useState(0)
    const [impSupportCosts, setInpSupportCosts] = useState(0)
+
 
    useEffect(() => {
       setInpId(id)
@@ -27,27 +39,11 @@ const ListItem = (props) => {
    const redactRow = (id) => {
       setStateInp(!stateInp)
       if (stateInp) {
-         changeItemRow(id)
+         changeItem(id)
       }
    }
 
-   const deletRow = async (id) => {
-      delRow(id)
-      try {
-         const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/delete`,
-            {
-               method: 'DELETE'
-            }
-         )
-         if (!response.ok) {
-            throw new Error('ошибка запроса')
-         }
-      } catch (error) {
-      }
-   }
-
-   const changeItemRow = async (id) => {
-
+   const changeItem = async (id) => {
       let obj = {
          equipmentCosts: 0,
          estimatedProfit: 0,
@@ -60,21 +56,8 @@ const ListItem = (props) => {
          salary: impSalary,
          supportCosts: impSupportCosts,
       }
-
-      try {
-         const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/update`,
-            {
-               method: 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(obj)
-            }
-         )
-         if (!response.ok) {
-            throw new Error('ошибка запроса')
-         }
-      }
-      catch (error) {
-      }
+      let url = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/update`
+      request(url, 'POST', obj)
    }
 
    const inputsName = <input
@@ -83,7 +66,8 @@ const ListItem = (props) => {
       id={id}
       name='name'
       className='row__input'
-      type="text" />
+      type="text"
+   />
 
    const inputsTotal = <input
       value={impTotal}
@@ -91,28 +75,33 @@ const ListItem = (props) => {
       id={id}
       name='total'
       className='row__input'
-      type="number" />
+      type="number"
+
+   />
 
    const inputsSalary = <input
       value={impSalary}
       onChange={(e) => setInpSalory(e.target.value)}
       id={id} name='salary'
       className='row__input'
-      type="number" />
+      type="number"
+   />
 
    const inputsMimExploitation = <input
       value={inpMimExploitation}
       onChange={(e) => setInpMimExploitation(e.target.value)}
       id={id} name='mimExploitation'
       className='row__input'
-      type="number" />
+      type="number"
+   />
 
    const inputsЫupportCosts = <input
       value={impSupportCosts} onChange={(e) => setInpSupportCosts(e.target.value)}
       id={id}
       name='supportCosts'
       className='row__input'
-      type="number" />
+      type="number"
+   />
 
 	return (
 		<>
@@ -121,7 +110,7 @@ const ListItem = (props) => {
             <div className="table__list-rows" >
 					<div className="table__list-icons">
                   <img id={impId} onClick={() => !stateInp && addItemRow(impId)} src={iconAdd} alt="" />
-                  <img id={impId} onClick={() => deletRow(impId)} src={iconDelet} alt="" />
+                  <img id={impId} onClick={() => deleteItem(impId)} src={iconDelet} alt="" />
 
 					</div>
 				</div>

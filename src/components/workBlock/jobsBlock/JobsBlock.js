@@ -1,7 +1,7 @@
 import './jobsBlock.css'
 import Navbar from '../navbar/Navbar';
 import iconAdd from './icons/IconAdd.png'
-import iconDelet from './icons/iconDelet.png'
+import { useHttp } from '../../../hooks/http.hooks';
 import ListItem from './listItem/ListItem';
 import { useEffect, useState } from 'react';
 
@@ -9,44 +9,33 @@ import { useEffect, useState } from 'react';
 
 
 const JobsBlock = () => {
-	const myId = 130018;
+   //const myId = 130018;
    const getList = 'http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/list';
-	const deleteRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${130018}/delete`;
-	const updateRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${112}/update`;
+   //const deleteRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${130018}/delete`;
+   //const updateRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${112}/update`;
 	const creatRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`
+   const { request } = useHttp()
+
 
    const [rows, setRows] = useState([]);
-   const [addId, setAddId] = useState([]);
-   console.log(rows);
 
-   const delRow = (id) => {
+   useEffect(() => {
+      getItem()
+   }, []);
+
+   const getItem = () => {
+      request(getList).then((res) => setRows(res))
+   }
+
+   const deleteItem = (id) => {
+      const url = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/delete`
+      request(url, 'DELETE')
       setRows(rows.filter(item => item.id !== id))
    }
 
-   // const addRow = (id) => {
-   //    setAddId([...addId, id])
-   // }
+   const addItem = async () => {
 
-   const addDataFromServer = async (url) => {
-      try {
-         const response = await fetch(url,
-            {
-               method: 'GET',
-               // headers: { 'Content-Type': 'application/json' },
-               // body: JSON.stringify(body)
-            }
-         )
-         if (!response.ok) {
-            throw new Error('ошибка запроса')
-         }
-         const data = await response.json().then(data => setRows(data))
-      } catch (error) {
-         console.log(error);
-      }
-	}
-
-   const addItemRow = async (id) => {
-      let obj = {
+      const obj = {
          equipmentCosts: 0,
          estimatedProfit: 0,
          machineOperatorSalary: 0,
@@ -58,26 +47,14 @@ const JobsBlock = () => {
          salary: 0,
          supportCosts: 0,
       }
-      try {
-         const response = await fetch(`http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`,
-            {
-               method: 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(obj)
-            }
-         )
 
-         if (!response.ok) {
-            throw new Error('ошибка запроса')
-         }
-         setAddId([...addId, id])
-      } catch (error) {
-      }
+      request(creatRow, 'POST', obj)
+
+      setTimeout(() => {
+         getItem()
+      }, 100);
    }
-	useEffect(() => {
-      addDataFromServer(getList)
 
-   }, [addId]);
 
 	return (
 		<div className="general">
@@ -99,9 +76,7 @@ const JobsBlock = () => {
             <div className="table__list" >
                <div className="table__list-rows" >
                   <div className="table__list-icons">
-                     <img onClick={() => addItemRow()} src={iconAdd} alt="кнопка добавления строки" />
-                     {/* <img  src={iconDelet} alt="кнопка удаления строки" /> */}
-
+                     <img onClick={addItem} src={iconAdd} alt="кнопка добавления строки" />
                   </div>
                </div>
                <div className="table__item-rows">Нажмите кнопку добавить</div>
@@ -115,8 +90,8 @@ const JobsBlock = () => {
                   id={id}
                   key={id}
                   {...props}
-                  delRow={delRow}
-                  addItemRow={addItemRow} />
+                  deleteItem={deleteItem}
+                  addItemRow={addItem} />
             })}
          </div>
 		</div>
