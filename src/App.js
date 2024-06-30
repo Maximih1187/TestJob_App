@@ -1,13 +1,14 @@
 
 import './App.css';
 import Header from './components/header/Header';
-import JobPage from './components/pages/pagesJs/JobPage';
+
+import JobsBlock from './components/workBlock/jobsBlock/JobsBlock';
 
 function App() {
   return (
     <div className='app'>
       <Header />
-      <JobPage />
+      <JobsBlock />
     </div>
   );
 }
