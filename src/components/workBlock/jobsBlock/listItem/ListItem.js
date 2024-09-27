@@ -1,124 +1,82 @@
 import './listItem.css'
 import iconAdd from './icons/IconAdd.png'
 import iconDelet from './icons/iconDelet.png'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHttp } from '../../../../hooks/http.hooks';
+import InputRows from './InputRows';
 
 
 const ListItem = (props) => {
-
    const { request } = useHttp()
-   const { id,
-      rowName,
-      total,
-      salary,
-      mimExploitation,
-      supportCosts,
-      deleteItem,
-      addItemRow
-   } = props;
+   const [wer, setWer] = useState(props)
+   const { id, deleteItem, addItemRow } = props;
+   const [stateInp, setStateInp] = useState(false);
+   const paramsInputs = [{
+      value: wer.rowName,
+      name: 'rowName',
+      type: "text",
+      change: change,
+   },
+   {
+      value: wer.overheads,
+      name: 'overheads',
+      type: "number",
+      change: change,
+   },
+   {
+      value: wer.salary,
+      name: 'salary',
+      type: "number",
+      change: change,
+   },
+   {
+      value: wer.mimExploitation,
+      name: 'mimExploitation',
+      type: "number",
+      change: change,
+   },
+   {
+      value: wer.supportCosts,
+      name: 'supportCosts',
+      type: "number",
+      change: change,
+   },
+   ]
 
-   const [stateInp, setStateInp] = useState(false)
-   const [impId, setInpId] = useState(0)
-   const [impName, setSInpName] = useState('')
-   const [impTotal, setSInpTotal] = useState(0)
-   const [impSalary, setInpSalory] = useState(0)
-   const [inpMimExploitation, setInpMimExploitation] = useState(0)
-   const [impSupportCosts, setInpSupportCosts] = useState(0)
+   function change(e) {
+      setWer({ ...wer, [e.target.name]: e.target.value })
+   }
 
-
-   useEffect(() => {
-      setInpId(id)
-      setSInpName(rowName)
-      setSInpTotal(total)
-      setInpSalory(salary)
-      setInpMimExploitation(mimExploitation)
-      setInpSupportCosts(supportCosts)
-   }, []);
-
-   const redactRow = (id) => {
+   function redactRow(id) {
       setStateInp(!stateInp)
       if (stateInp) {
          changeItem(id)
       }
    }
 
-   const changeItem = async (id) => {
-      let obj = {
-         equipmentCosts: 0,
-         estimatedProfit: 0,
-         machineOperatorSalary: 0,
-         mainCosts: 0,
-         materials: 0,
-         mimExploitation: inpMimExploitation,
-         overheads: 0,
-         rowName: impName,
-         salary: impSalary,
-         supportCosts: impSupportCosts,
-      }
+   async function changeItem(id) {
       let url = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/update`
-      request(url, 'POST', obj)
+      request(url, 'POST', wer)
+         .then(data => console.log(data))
+         .catch(e => console.log(e))
    }
-
-   const inputsName = <input
-      value={impName}
-      onChange={(e) => setSInpName(e.target.value)}
-      id={id}
-      name='name'
-      className='row__input'
-      type="text"
-   />
-
-   const inputsTotal = <input
-      value={impTotal}
-      onChange={(e) => setSInpTotal(e.target.value)}
-      id={id}
-      name='total'
-      className='row__input'
-      type="number"
-
-   />
-
-   const inputsSalary = <input
-      value={impSalary}
-      onChange={(e) => setInpSalory(e.target.value)}
-      id={id} name='salary'
-      className='row__input'
-      type="number"
-   />
-
-   const inputsMimExploitation = <input
-      value={inpMimExploitation}
-      onChange={(e) => setInpMimExploitation(e.target.value)}
-      id={id} name='mimExploitation'
-      className='row__input'
-      type="number"
-   />
-
-   const inputsЫupportCosts = <input
-      value={impSupportCosts} onChange={(e) => setInpSupportCosts(e.target.value)}
-      id={id}
-      name='supportCosts'
-      className='row__input'
-      type="number"
-   />
 
 	return (
 		<>
 			<hr className='spase' />
-         <div className="table__list" onDoubleClick={() => redactRow(impId)} id={impId}>
+         <div className="table__list" onDoubleClick={() => redactRow(id)} id={id}>
             <div className="table__list-rows" >
 					<div className="table__list-icons">
-                  <img id={impId} onClick={() => !stateInp && addItemRow(impId)} src={iconAdd} alt="" />
-                  <img id={impId} onClick={() => deleteItem(impId)} src={iconDelet} alt="" />
-
+                  <img id={id} onClick={() => !stateInp && addItemRow(id)} src={iconAdd} alt="" />
+                  <img id={id} onClick={() => deleteItem(id)} src={iconDelet} alt="" />
 					</div>
 				</div>
-            <div className="table__item-rows">{stateInp ? inputsName : impName}</div>
-            <div className="table__item-rows">{stateInp ? inputsSalary : impSalary}</div>
-            <div className="table__item-rows">{stateInp ? inputsMimExploitation : inpMimExploitation}</div>
-            <div className="table__item-rows">{stateInp ? inputsЫupportCosts : impSupportCosts}</div>
-            <div className="table__item-rows">{stateInp ? inputsTotal : impTotal}</div>
+            {paramsInputs.map((input) =>
+               <div className="table__item-rows">{stateInp ? <InputRows
+                  key={id}
+                  props={input}
+               /> : input.value}
+               </div>)}
 			</div>
       </>
 	);

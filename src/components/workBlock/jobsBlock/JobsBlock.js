@@ -9,32 +9,32 @@ import { useEffect, useState } from 'react';
 
 
 const JobsBlock = () => {
-   //const myId = 130018;
+   //const eID= 130018;
    const getList = 'http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/list';
    //const deleteRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${130018}/delete`;
    //const updateRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${112}/update`;
-	const creatRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`
+   const creatRow = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/create`
    const { request } = useHttp()
-
-
    const [rows, setRows] = useState([]);
+   console.log(rows);
 
    useEffect(() => {
-      getItem()
+      getItems()
    }, []);
 
-   const getItem = () => {
+
+   const getItems = () => {
       request(getList).then((res) => setRows(res))
    }
 
    const deleteItem = (id) => {
-      const url = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/delete`
+      const url = `http://185.244.172.108:8081/v1/outlay-rows/entity/130018/row/${id}/delete`;
       request(url, 'DELETE')
+         .then(data => console.log(data));
       setRows(rows.filter(item => item.id !== id))
    }
 
    const addItem = async () => {
-
       const obj = {
          equipmentCosts: 0,
          estimatedProfit: 0,
@@ -46,15 +46,15 @@ const JobsBlock = () => {
          rowName: 'Заполните поле',
          salary: 0,
          supportCosts: 0,
-      }
+      };
 
       request(creatRow, 'POST', obj)
+         .then(data => console.log(data));
 
       setTimeout(() => {
-         getItem()
+         getItems()
       }, 100);
    }
-
 
 	return (
 		<div className="general">
@@ -80,10 +80,7 @@ const JobsBlock = () => {
                   </div>
                </div>
                <div className="table__item-rows">Нажмите кнопку добавить</div>
-               <div className="table__item-rows"></div>
-               <div className="table__item-rows"></div>
-               <div className="table__item-rows"></div>
-               <div className="table__item-rows"></div>
+
             </div>
             {rows.map(({ id, ...props }) => {
                return <ListItem
